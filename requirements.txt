@@ -1,0 +1,13 @@
+yfinance
+numpy
+pandas
+setuptools
+gspread
+gspread_dataframe
+scikit-learn
+xgboost
+oauth2client
+logging
+requests
+schedule
+python-dotenv
