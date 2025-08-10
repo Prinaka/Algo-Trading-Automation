@@ -3,6 +3,7 @@ import yfinance as yf
 import pandas as pd
 import numpy as np
 from sklearn.preprocessing import StandardScaler
+from sklearn.tree import DecisionTreeClassifier
 from sklearn.svm import SVC
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
@@ -20,8 +21,8 @@ import os
 load_dotenv()
 
 # configuration
-tickers = ['RELIANCE.NS', 'TCS.NS', 'INFY.NS', 'ICICIBANK.NS', 'SBIN.NS', 'BHARTIARTL.NS', 'HINDUNILVR.NS', 'HAL.NS', 'BEL.NS',
-           'MSFT', 'AAPL', 'GOOGL', 'AMZN', 'TSLA', 'NVDA', 'META', 'NFLX']
+tickers = ['INFY.NS', 'SBIN.NS', 'ADANIENT.NS', 
+           'POWERGRID.NS', 'BPCL.NS', 'IOC.NS', 'SUNPHARMA.NS']
 sheet_name = "AlgoTradeLogs"
 telegram_token = os.getenv("telegram_token")
 telegram_chat_id = os.getenv("telegram_chat_id")
@@ -94,7 +95,7 @@ def predict_movement(df):
     scaler = StandardScaler()
     X_train = scaler.fit_transform(X_train)
     X_test = scaler.transform(X_test)
-    model = SVC(kernel='rbf', random_state=42)
+    model = DecisionTreeClassifier(max_depth=20, random_state=42)
     model.fit(X_train, y_train)
     accuracy = accuracy_score(y_test, model.predict(X_test))
     return accuracy
@@ -149,17 +150,18 @@ def run():
     for ticker in tickers:
         df = fetch_data(ticker)
         df = apply_strategy(df)
-        today = pd.Timestamp.today().normalize()
+        last_date = pd.Timestamp.today().normalize()
+        lookback_days = 7
         # Buy and Sell signals for today
-        buy_signals = df[(df['Buy_Signal'] == True) & (df.index.normalize() == today)]
-        sell_signals = df[(df['Sell_Signal'] == True) & (df.index.normalize() == today)]
-        logging.info(f"{ticker}: {len(buy_signals)} buy signals, {len(sell_signals)} sell signals for today")
+        buy_signals = df[(df['Buy_Signal'] == True) & (df.index >= last_date - pd.Timedelta(days=lookback_days))]
+        sell_signals = df[(df['Sell_Signal'] == True) & (df.index >= last_date - pd.Timedelta(days=lookback_days))]
+        logging.info(f"{ticker}: {len(buy_signals)} buy signals, {len(sell_signals)} sell signals in last {lookback_days} days")
         ticker_signals = []
         if not buy_signals.empty:
             latest_buy = buy_signals.iloc[-1]
             ticker_signals.append({
                 'Ticker': ticker,
-                'Date': latest_buy.name,
+                'Date': latest_buy.name.date(),
                 'Close': latest_buy['Close'],
                 'Type': 'BUY'
             })
@@ -168,7 +170,7 @@ def run():
             latest_sell = sell_signals.iloc[-1]
             ticker_signals.append({
                 'Ticker': ticker,
-                'Date': latest_sell.name,
+                'Date': latest_sell.name.date(),
                 'Close': latest_sell['Close'],
                 'Type': 'SELL'
             })
