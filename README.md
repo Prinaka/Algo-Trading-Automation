@@ -2,9 +2,8 @@
 This project is an end-to-end algorithmic trading signal generator that uses technical indicators and a machine learning classifier (SVM) to identify buy and sell opportunities for selected stocks.
 
 Key Features:
-Data Collection: Fetches up-to-date stock data using Yahoo Finance API (yfinance).
-
-Technical Indicators:
+*Data Collection: Fetches up-to-date stock data using Yahoo Finance API (yfinance).
+*Technical Indicators:
 
 RSI (Relative Strength Index)
 
