@@ -24,8 +24,8 @@ load_dotenv()
 # configuration
 tickers = ['MSFT', 'AMZN', 'TSLA', 'META', 'NFLX', 'XOM']
 sheet_name = "AlgoTradeLogs"
-telegram_token = os.getenv("telegram_token")
-telegram_chat_id = os.getenv("telegram_chat_id")
+telegram_token = os.getenv("TELEGRAM_TOKEN")
+telegram_chat_id = os.getenv("TELEGRAM_CHAT_ID")
 trade_log_tab = "Trade_Log"
 summary_tab = "Summary_PnL"
 win_ratio_tab = "Win_Ratio"
@@ -543,13 +543,7 @@ def backfill_trades():
         logging.exception(f"Failed to update Google Sheet during backfill: {e}")
     logging.info("Backfill process completed")
 
-# scheduler
-def start_scheduler():
-    schedule.every().day.at("09:00:00").do(run)
-    while True:
-        schedule.run_pending()
-        time.sleep(60)
-
 # entry point
 if __name__ == "__main__":
-    start_scheduler()
+    run()
+
