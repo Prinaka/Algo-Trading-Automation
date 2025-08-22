@@ -11,3 +11,4 @@ logging
 requests
 schedule
 python-dotenv
+imblearn
