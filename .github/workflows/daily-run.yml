@@ -8,7 +8,6 @@ on:
 jobs:
   run-bot:
     runs-on: ubuntu-latest
-    secrets: inherit
 
     steps:
     - name: Checkout repo
@@ -27,4 +26,12 @@ jobs:
         TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
         TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         GOOGLE_CREDS_JSON: ${{ secrets.CREDS }}
+      run: |
+        python - <<EOF
+        import os, logging
+        logging.basicConfig(level=logging.INFO)
+        logging.info(f"TELEGRAM_TOKEN: {bool(os.getenv('TELEGRAM_TOKEN'))}")
+        logging.info(f"TELEGRAM_CHAT_ID: {bool(os.getenv('TELEGRAM_CHAT_ID'))}")
+        logging.info(f"GOOGLE_CREDS_JSON length: {len(os.getenv('GOOGLE_CREDS_JSON') or '')}")
+        EOF
       run: python main.py
