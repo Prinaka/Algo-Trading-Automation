@@ -345,6 +345,10 @@ def calculate_performance(trade_log):
 def connect_to_sheet():
     scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
     creds_dict = json.loads(os.getenv("GOOGLE_CREDS_JSON"))
+    if not creds_json:
+        logging.error("GOOGLE_CREDS_JSON not set in GitHub Actions!")
+        raise RuntimeError("Missing GOOGLE_CREDS_JSON")
+    logging.info(f"Secret loaded, length={len(creds_json)}")
     creds = ServiceAccountCredentials.from_json_keyfile_name(creds_dict, scope)
     client = gspread.authorize(creds)
     return client.open(sheet_name)
@@ -499,6 +503,7 @@ def run():
 # entry point
 if __name__ == "__main__":
     run()
+
 
 
 
