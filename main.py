@@ -344,7 +344,8 @@ def calculate_performance(trade_log):
 # google sheets setup
 def connect_to_sheet():
     scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
-    creds = ServiceAccountCredentials.from_json_keyfile_name('creds.json', scope)
+    creds_dict = json.loads(os.getenv("GOOGLE_CREDS_JSON"))
+    creds = ServiceAccountCredentials.from_json_keyfile_name(creds_dict, scope)
     client = gspread.authorize(creds)
     return client.open(sheet_name)
 
@@ -353,6 +354,10 @@ def update_sheet(sheet, tab, df):
         worksheet = sheet.worksheet(tab)
     except Exception:
         worksheet = sheet.add_worksheet(title=tab, rows="1000", cols="20")
+    existing_records = worksheet.get_all_records()
+    if existing_records:
+        existing_df = pd.DataFrame(existing_records)
+        df = pd.concat([existing_df, df], ignore_index=True)
     set_with_dataframe(worksheet, df)
 
 
@@ -494,5 +499,6 @@ def run():
 # entry point
 if __name__ == "__main__":
     run()
+
 
 
