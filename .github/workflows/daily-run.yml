@@ -34,4 +34,3 @@ jobs:
         logging.info(f"TELEGRAM_CHAT_ID: {bool(os.getenv('TELEGRAM_CHAT_ID'))}")
         logging.info(f"GOOGLE_CREDS_JSON length: {len(os.getenv('GOOGLE_CREDS_JSON') or '')}")
         EOF
-      run: python main.py
