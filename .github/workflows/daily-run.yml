@@ -21,9 +21,6 @@ jobs:
     - name: Install dependencies
       run: pip install -r requirements.txt
 
-    - name: Setup Google creds
-      run: echo "${{ secrets.CREDS }}" > creds.json
-
     - name: Run script
       env:
         TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
