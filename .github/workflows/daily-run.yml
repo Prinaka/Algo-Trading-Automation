@@ -8,6 +8,7 @@ on:
 jobs:
   run-bot:
     runs-on: ubuntu-latest
+    secrets: inherit
 
     steps:
     - name: Checkout repo
