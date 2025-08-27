@@ -490,60 +490,9 @@ def run():
     else:
         logging.info("No new data to update in Google Sheet")
 
-# function to see pnl and win ratio of past trades
-def backfill_trades():
-    logging.info("Starting backfill process for historical trades")
-    try:
-        sheet = connect_to_sheet()
-        logging.info("Connected to Google Sheet for backfill")
-    except Exception as e:
-        logging.exception(f"Failed to connect to Google Sheet: {e}")
-        return
-    trade_log_list = []
-    for ticker in tickers:
-        try:
-            logging.info(f"Backfilling ticker: {ticker}")
-            df = fetch_data(ticker)
-            if df.empty:
-                logging.warning(f"No data for {ticker}, skipping.")
-                continue
-            df = add_features(df.copy())
-            if df.empty:
-                continue
-            for i in range(len(df) - 1):  
-                date_str = df.index[i].strftime('%Y-%m-%d')
-                close_price = df['Close'].iloc[i]
-
-                if df['Buy_Signal'].iloc[i]:
-                    trade_log_list.append({
-                        "Date": date_str,
-                        "Ticker": ticker,
-                        "Signal": "BUY",
-                        "Close": close_price,
-                        "Accuracy": None  
-                    })
-                elif df['Sell_Signal'].iloc[i]:
-                    trade_log_list.append({
-                        "Date": date_str,
-                        "Ticker": ticker,
-                        "Signal": "SELL",
-                        "Close": close_price,
-                        "Accuracy": None
-                    })
-        except Exception as e:
-            logging.exception(f"Error backfilling {ticker}: {e}")
-    trade_log_df = pd.DataFrame(trade_log_list)
-    summary_df, win_ratio_df = calculate_performance(trade_log_df)
-    try:
-        update_sheet(sheet, trade_log_tab, trade_log_df)
-        update_sheet(sheet, summary_tab, summary_df)
-        update_sheet(sheet, win_ratio_tab, win_ratio_df)
-        logging.info("Backfill Google Sheet updated successfully")
-    except Exception as e:
-        logging.exception(f"Failed to update Google Sheet during backfill: {e}")
-    logging.info("Backfill process completed")
 
 # entry point
 if __name__ == "__main__":
     run()
+
 
