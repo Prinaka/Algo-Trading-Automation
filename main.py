@@ -370,7 +370,7 @@ def send_telegram_alert(message):
         return
     try:
         url = f"https://api.telegram.org/bot{telegram_token}/sendMessage"
-        response = requests.post(url, data={"chat_id": telegram_chat_id, "text": message})
+        requests.post(url, data={"chat_id": telegram_chat_id, "text": message})
     except Exception:
         logging.exception("Failed to send telegram alert")
 
@@ -505,6 +505,7 @@ if __name__ == "__main__":
     ws = sheet.sheet1
     ws.update("A1", [["Updated from Actions"]])
     run()
+
 
 
 
