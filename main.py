@@ -9,7 +9,6 @@ from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_sc
 import gspread
 from gspread_dataframe import set_with_dataframe
 from oauth2client.service_account import ServiceAccountCredentials
-from google.oauth2.service_account import Credentials
 import logging
 import requests
 import schedule
@@ -501,6 +500,7 @@ def run():
 # entry point
 if __name__ == "__main__":
     run()
+
 
 
 
