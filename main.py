@@ -353,9 +353,10 @@ def connect_to_sheet():
 def update_sheet(sheet, tab, df):
     try:
         worksheet = sheet.worksheet(tab)
+        existing_records = worksheet.get_all_records()
     except Exception:
         worksheet = sheet.add_worksheet(title=tab, rows="1000", cols="20")
-    existing_records = worksheet.get_all_records()
+        existing_records = worksheet.get_all_records()
     if existing_records:
         existing_df = pd.DataFrame(existing_records)
         df = pd.concat([existing_df, df], ignore_index=True)
@@ -500,6 +501,7 @@ def run():
 # entry point
 if __name__ == "__main__":
     run()
+
 
 
 
