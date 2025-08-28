@@ -503,8 +503,9 @@ if __name__ == "__main__":
     send_telegram_alert("Hello from GitHub Actions!")
     sheet = connect_to_sheet()
     ws = sheet.sheet1
-    ws.update("A1", "Updated from Actions")
+    ws.update("A1", [["Updated from Actions"]])
     run()
+
 
 
 
