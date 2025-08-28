@@ -9,6 +9,7 @@ from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_sc
 import gspread
 from gspread_dataframe import set_with_dataframe
 from oauth2client.service_account import ServiceAccountCredentials
+from google.oauth2.service_account import Credentials
 import logging
 import requests
 import schedule
@@ -344,10 +345,11 @@ def calculate_performance(trade_log):
 # google sheets setup
 def connect_to_sheet():
     scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
-    creds_dict = json.loads(os.getenv("GOOGLE_CREDS_JSON"))
-    creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_dict, scope)
+    creds_dict = json.loads(os.environ["GOOGLE_CREDS_JSON"])
+    creds_dict["private_key"] = creds_dict["private_key"].replace("\\n", "\n")
+    creds = ServiceAccountCredentials.from_json_keyfile_name(creds_dict, scope)
     client = gspread.authorize(creds)
-    sheet = client.open(sheet_name)
+    return client.open(sheet_name)
 
 def update_sheet(sheet, tab, df):
     try:
@@ -499,6 +501,7 @@ def run():
 # entry point
 if __name__ == "__main__":
     run()
+
 
 
 
