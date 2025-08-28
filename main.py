@@ -364,15 +364,21 @@ def update_sheet(sheet, tab, df):
 
 
 # telegram alerts
-def send_telegram_alert(message):
+def send_telegram_alert(message: str):
     if not telegram_token or not telegram_chat_id:
-        logging.debug("Telegram token/chat id missing; skipping alert.")
+        logging.error("Telegram token or chat_id missing. Skipping alert.")
         return
+    url = f"https://api.telegram.org/bot{telegram_token}/sendMessage"
+    payload = {"chat_id": telegram_chat_id, "text": message}
     try:
-        url = f"https://api.telegram.org/bot{telegram_token}/sendMessage"
-        requests.post(url, data={"chat_id": telegram_chat_id, "text": message})
-    except Exception:
-        logging.exception("Failed to send telegram alert")
+        response = requests.post(url, data=payload)
+        logging.info(f"Telegram API response: {response.status_code} {response.text}")
+        if response.status_code != 200:
+            logging.error(f"Telegram message failed: {response.text}")
+        else:
+            logging.info("Telegram alert sent successfully")
+    except Exception as e:
+        logging.exception(f"Failed to send Telegram alert: {e}")
 
 
 # main workflow
@@ -505,6 +511,7 @@ if __name__ == "__main__":
     ws = sheet.sheet1
     ws.update("A1", [["Updated from Actions"]])
     run()
+
 
 
 
