@@ -346,7 +346,7 @@ def connect_to_sheet():
     scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
     creds_dict = json.loads(os.environ["GOOGLE_CREDS_JSON"])
     creds_dict["private_key"] = creds_dict["private_key"].replace("\\n", "\n")
-    creds = ServiceAccountCredentials.from_json_keyfile_name(creds_dict, scope)
+    creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_dict, scope)
     client = gspread.authorize(creds)
     return client.open(sheet_name)
 
@@ -370,7 +370,7 @@ def send_telegram_alert(message):
         return
     try:
         url = f"https://api.telegram.org/bot{telegram_token}/sendMessage"
-        requests.post(url, data={"chat_id": telegram_chat_id, "text": message})
+        response = requests.post(url, data={"chat_id": telegram_chat_id, "text": message})
     except Exception:
         logging.exception("Failed to send telegram alert")
 
@@ -500,7 +500,12 @@ def run():
 
 # entry point
 if __name__ == "__main__":
+    send_telegram_alert("Hello from GitHub Actions!")
+    sheet = connect_to_sheet()
+    ws = sheet.sheet1
+    ws.update("A1", "Updated from Actions")
     run()
+
 
 
 
