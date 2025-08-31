@@ -1,7 +1,8 @@
 # Algo-Trading-Automation
 This project is an end-to-end algorithmic trading signal generator that uses technical indicators and a machine learning classifier (XGBClassifier) to identify buy and sell opportunities for selected stocks. The pipeline is automated with GitHub Actions, so that it runs every day at 9:00 AM IST (03:30 UTC).
 
-Key Features:
+**Key Features:**
+
 * Data Collection: Fetches up-to-date stock data using Yahoo Finance API (yfinance).
 * Momentum Indicators:
   - RSI (Relative Strength Index) → Detects overbought (>70) and oversold (<30) conditions.
@@ -31,10 +32,48 @@ Key Features:
 * Telegram Alerts: Sends buy/sell signals with ML accuracy score directly to your Telegram chat.
 * Scheduled Execution: Scheduled with GitHub Actions (cron job). The workflow file is in .github/workflows/daily-run.yml. It runs the bot automatically at 03:30 UTC (9:00 AM IST) daily. You can also trigger a manual run from the Actions tab in GitHub.
 
-Outputs:
+**Outputs:**
+
 * Google Sheets:
   - Trade_Log → Daily trade signals
   - Summary_PnL → Total PnL and trades
   - Win_Ratio → Win ratio per ticker
   - Model_Metrics → Train/Test performance metrics
 * Telegram Alerts: Buy/Sell signals with model accuracy delivered to your Telegram
+
+**Installation:**
+
+1. Clone the repository:
+```
+gh repo clone Prinaka/Algo-Trading-Automation
+cd resume-screening-chatbot
+```
+
+2. Create and activate a virtual environment (optional but recommended):
+```
+python -m venv venv
+source venv/bin/activate  # Linux/macOS
+venv\Scripts\activate     # Windows
+```
+
+3. Install dependencies:
+```
+pip install -r requirements.txt
+```
+
+4. Configure AWS credentials (for Bedrock access):
+```
+aws configure
+#Provide AWS Access Key, Secret Key, and default region (us-east-1)
+```
+
+**Usage:**
+
+Run the Streamlit app:
+```
+streamlit run app.py
+```
+
+**License:**
+
+This project is licensed under the MIT License – see the LICENSE file for details.
