@@ -61,19 +61,6 @@ venv\Scripts\activate     # Windows
 pip install -r requirements.txt
 ```
 
-4. Configure AWS credentials (for Bedrock access):
-```
-aws configure
-#Provide AWS Access Key, Secret Key, and default region (us-east-1)
-```
-
-**Usage:**
-
-Run the Streamlit app:
-```
-streamlit run app.py
-```
-
 **License:**
 
 This project is licensed under the MIT License – see the LICENSE file for details.
