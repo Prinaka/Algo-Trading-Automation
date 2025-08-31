@@ -46,7 +46,7 @@ This project is an end-to-end algorithmic trading signal generator that uses tec
 1. Clone the repository:
 ```
 gh repo clone Prinaka/Algo-Trading-Automation
-cd resume-screening-chatbot
+cd algo-trading-automation
 ```
 
 2. Create and activate a virtual environment (optional but recommended):
