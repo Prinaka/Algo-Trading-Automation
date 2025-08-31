@@ -1,4 +1,4 @@
-# Algo-Trading-Automation
+# Algo Trading Automation
 This project is an end-to-end algorithmic trading signal generator that uses technical indicators and a machine learning classifier (XGBClassifier) to identify buy and sell opportunities for selected stocks. The pipeline is automated with GitHub Actions, so that it runs every day at 9:00 AM IST (03:30 UTC).
 
 **Key Features:**
