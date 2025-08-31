@@ -39,8 +39,9 @@ This project is an end-to-end algorithmic trading signal generator that uses tec
   - Summary_PnL → Total PnL and trades
   - Win_Ratio → Win ratio per ticker
   - Model_Metrics → Train/Test performance metrics
+<p align="center"> <img width="700" height="172" alt="Image" src="https://github.com/user-attachments/assets/026f614d-8d46-4420-b4e8-692749f715ab" />
+
 <img width="1331" height="624" alt="Image" src="https://github.com/user-attachments/assets/ce488e3d-9e07-403d-8ff7-ed7a167ad5b3" />
-<img width="953" height="252" alt="Image" src="https://github.com/user-attachments/assets/026f614d-8d46-4420-b4e8-692749f715ab" />
 
 * Telegram Alerts: Buy/Sell signals with model accuracy delivered to your Telegram
 
